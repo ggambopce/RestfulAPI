@@ -21,4 +21,9 @@ public class PortfolioService {
         return portfolioRepository.findAll();
     }
 
+    public Article findById(long id) {
+        return portfolioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+    }
+
 }
