@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.ggambo.springbootdeveloper.domain.Article;
 import me.ggambo.springbootdeveloper.dto.AddArticleRequest;
 import me.ggambo.springbootdeveloper.dto.ArticleResponse;
+import me.ggambo.springbootdeveloper.dto.UpdateArticleRequest;
 import me.ggambo.springbootdeveloper.service.PortfolioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,20 @@ public class PortfolioController {
 
         return  ResponseEntity.ok()
                 .body(new ArticleResponse(article));
+    }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
+        portfolioService.delete(id);
+
+        return ResponseEntity.ok()
+                .build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest request) {
+        Article updatedArticle = portfolioService.update(id, request);
+
+        return  ResponseEntity.ok().body(updatedArticle);
     }
 }

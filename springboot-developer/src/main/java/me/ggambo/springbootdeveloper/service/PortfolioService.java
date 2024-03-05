@@ -1,8 +1,10 @@
 package me.ggambo.springbootdeveloper.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.ggambo.springbootdeveloper.domain.Article;
 import me.ggambo.springbootdeveloper.dto.AddArticleRequest;
+import me.ggambo.springbootdeveloper.dto.UpdateArticleRequest;
 import me.ggambo.springbootdeveloper.repository.PortfolioRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +28,17 @@ public class PortfolioService {
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }
 
+    public void delete(long id) {
+        portfolioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Article update(long id, UpdateArticleRequest request) {
+        Article article = portfolioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+
+        article.update(request.getTitle(), request.getContent());
+
+        return  article;
+    }
 }
